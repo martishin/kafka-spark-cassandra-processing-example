@@ -1,6 +1,3 @@
-import logging
-import uuid
-
 from cassandra.cluster import Cluster
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col
@@ -94,7 +91,7 @@ def connect_to_kafka(s_conn):
             s_conn.readStream.format("kafka")
             .option("kafka.bootstrap.servers", "localhost:9092")
             .option("subscribe", "users_created")
-            .option("startingOffsets", "earliest")
+            .option("startingOffsets", "latest")
             .load()
         )
         print("kafka dataframe created successfully")
@@ -153,45 +150,6 @@ if __name__ == "__main__":
             create_table(cassandra_conn)
 
             print("Streaming is being started...")
-
-            # streaming_query = (
-            #     selection_df.writeStream.format("org.apache.spark.sql.cassandra")
-            #     .option("checkpointLocation", "/tmp/checkpoint")
-            #     .option("keyspace", "spark_streams")
-            #     .option("table", "created_users")
-            #     .option(
-            #         "spark.cassandra.connection.host", "localhost"
-            #     )  # Make sure the Cassandra host is specified
-            #     .option(
-            #         "spark.cassandra.connection.port", "9042"
-            #     )  # Explicitly specify the port
-            #     .start()
-            # )
-
-            def process_batch(df, epoch_id):
-                def insert_row(row):
-                    # Extract data from the row
-                    data = {
-                        "id": row.id,
-                        "first_name": row.first_name,
-                        "last_name": row.last_name,
-                        "gender": row.gender,
-                        "address": row.address,
-                        "post_code": row.post_code,
-                        "email": row.email,
-                        "username": row.username,
-                        "registered_date": row.registered_date,
-                        "phone": row.phone,
-                        "picture": row.picture,
-                    }
-
-                    # Insert data into Cassandra
-                    insert_data(cassandra_conn, data)
-
-                if not df.isEmpty():
-                    df.foreach(insert_row)
-                else:
-                    print("No records in this batch")
 
             streaming_query = (
                 selection_df.writeStream.format("org.apache.spark.sql.cassandra")
