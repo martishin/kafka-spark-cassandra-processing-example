@@ -1,6 +1,6 @@
-PostgreSQL -> Kafka -> Spark -> Cassandra streaming example
+Kafka -> Spark -> Cassandra Streaming Example
 
-Running locally: `docker-compose up`
+Run locally: `docker-compose up`
 
 Tools: 
 * Airflow UI: http://localhost:8080/home  
