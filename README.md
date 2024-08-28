@@ -1,4 +1,4 @@
-# Kafka -> Spark -> Cassandra Streaming Example
+# Kafka -> Spark -> Cassandra Processing Example
 
 Run locally: `docker-compose up`
 
