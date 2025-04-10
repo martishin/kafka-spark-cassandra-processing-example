@@ -20,7 +20,7 @@ dag = DAG(
 
 run_spark_job = SparkSubmitOperator(
     task_id="run_spark_streaming_job",
-    application="./dags/jobs/spark_stream.py",
+    application="/opt/airflow/dags/jobs/spark_stream.py",
     packages="com.datastax.spark:spark-cassandra-connector_2.12:3.5.1,org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.1",
     conf={
         "spark.cassandra.connection.host": "cassandra",

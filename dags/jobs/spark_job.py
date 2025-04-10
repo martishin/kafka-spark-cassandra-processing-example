@@ -106,7 +106,9 @@ def create_cassandra_connection():
         cas_session = cluster.connect()
         return cas_session
     except Exception as e:
-        print(f"Could not create cassandra connection due to {e}")
+        import traceback
+        print("Could not create cassandra connection:")
+        traceback.print_exc()
         return None
 
 
